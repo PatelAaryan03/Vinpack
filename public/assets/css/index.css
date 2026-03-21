@@ -31,6 +31,60 @@ body {
   background: #ffffff;
   color: var(--dark);
   min-height: 100vh;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .container {
@@ -84,14 +138,16 @@ body {
   color: white;
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding-bottom: 5px;
   border-bottom: 2px solid transparent;
+  position: relative;
 }
 
 .nav-links a:hover {
   color: var(--primary);
   border-bottom: 2px solid var(--primary);
+  transform: translateY(-2px);
 }
 
 .mobile-menu-btn {
@@ -101,6 +157,11 @@ body {
   color: white;
   font-size: 24px;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+  transform: scale(1.1);
 }
 
 /* HERO SECTION */
@@ -111,6 +172,14 @@ body {
   align-items: center;
   margin-bottom: 80px;
   padding: 60px 0;
+}
+
+.hero-modern > * {
+  animation: slideUp 0.7s ease-out;
+}
+
+.hero-modern > *:nth-child(2) {
+  animation: slideUp 0.7s ease-out 0.1s both;
 }
 
 .hero-content h1 {
@@ -131,6 +200,13 @@ body {
   border-radius: 20px;
   font-size: 14px;
   font-weight: 600;
+  animation: slideUp 0.7s ease-out 0.2s both;
+  transition: all 0.3s ease;
+}
+
+.hero-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(196, 152, 103, 0.3);
 }
 
 .hero-subtitle {
@@ -156,8 +232,10 @@ body {
   border-radius: var(--radius);
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-decoration: none;
+  position: relative;
+  will-change: transform, box-shadow;
 }
 
 .btn-primary {
@@ -167,8 +245,8 @@ body {
 
 .btn-primary:hover {
   background: var(--primary-dark);
-  box-shadow: 0 2px 8px rgba(196, 152, 103, 0.2);
-  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(196, 152, 103, 0.3);
+  transform: translateY(-2px);
 }
 
 .btn-outline {
@@ -180,7 +258,8 @@ body {
 .btn-outline:hover {
   background: var(--primary);
   color: white;
-  box-shadow: 0 2px 8px rgba(196, 152, 103, 0.15);
+  box-shadow: 0 8px 20px rgba(196, 152, 103, 0.3);
+  transform: translateY(-2px);
 }
 
 .btn-lg {
@@ -238,6 +317,7 @@ body {
   color: var(--primary-dark);
   box-shadow: 0 8px 20px rgba(129, 166, 198, 0.25);
   animation: float 3s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes float {
@@ -277,14 +357,19 @@ body {
   padding: 40px 30px;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-align: center;
   overflow: hidden;
+  will-change: transform, box-shadow;
+}
+
+.feature-card.animated {
+  animation: slideUp 0.6s ease-out both;
 }
 
 .feature-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(34, 40, 49, 0.1);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(34, 40, 49, 0.15);
 }
 
 .feature-card img {
@@ -293,6 +378,11 @@ body {
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 20px;
+  transition: transform 0.4s ease;
+}
+
+.feature-card:hover img {
+  transform: scale(1.05);
 }
 
 .feature-icon {
@@ -327,11 +417,12 @@ body {
   color: var(--primary);
   text-decoration: none;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
 }
 
 .feature-link:hover {
-  gap: 10px;
+  gap: 12px;
   color: var(--primary-dark);
 }
 
@@ -381,6 +472,13 @@ body {
   text-align: center;
   margin-bottom: 80px;
   box-shadow: 0 4px 15px rgba(129, 166, 198, 0.2);
+  animation: slideUp 0.6s ease-out;
+  transition: all 0.3s ease;
+}
+
+.cta-modern:hover {
+  box-shadow: 0 12px 30px rgba(129, 166, 198, 0.3);
+  transform: translateY(-3px);
 }
 
 .cta-content h2 {
@@ -442,12 +540,13 @@ body {
 .footer-section nav a {
   color: white;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .footer-section nav a:hover {
   color: var(--primary);
   opacity: 0.9;
+  transform: translateX(4px);
 }
 
 .admin-link {
@@ -485,11 +584,12 @@ img {
   height: auto;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+  will-change: transform, box-shadow;
 }
 
 .product-image:hover {
-  transform: scale(1.02);
+  transform: scale(1.05);
   box-shadow: var(--shadow-lg);
 }
 

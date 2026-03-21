@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require_once '../config/database.php';
+require_once '../../config/database.php';
 
 // Helper function to log activity
 function log_activity($action, $details = '') {

@@ -11,3 +11,5 @@
 [2026-03-20 10:42:17] | Action: LOGIN_SUCCESS | User: admin | IP: 127.0.0.1
 [2026-03-20 10:46:23] | Action: PERMANENT_DELETE | User: API | IP: 127.0.0.1 | Details: Inquiry #11 permanently deleted
 [2026-03-20 11:35:53] | Action: LOGOUT | User: admin | IP: 127.0.0.1
+[2026-03-21 14:11:23] | Action: LOGIN_SUCCESS | User: admin | IP: 127.0.0.1
+[2026-03-21 14:17:13] | Action: LOGOUT | User: admin | IP: 127.0.0.1

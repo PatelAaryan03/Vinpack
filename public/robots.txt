@@ -1,0 +1,25 @@
+# SEO Robots Configuration for Vinpack
+# Allow search engines to crawl and index all pages
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /about.html
+Allow: /products.html
+Allow: /contact.html
+Allow: /assets/
+
+# Disallow admin and sensitive areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /config/
+Disallow: /database/
+Disallow: /logs/
+Disallow: /.env
+Disallow: /.git/
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://www.vinpackank.com/sitemap.xml

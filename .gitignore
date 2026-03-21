@@ -1,0 +1,71 @@
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+php_errors.log
+api_errors.log
+backup.log
+
+# Backups
+backups/
+*.sql.gz
+*.tar.gz
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Database
+database/*.sql
+!database/schema.sql
+!database/migrations.sql
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+
+# Build/Dist
+dist/
+build/
+
+# Git
+.git
+.gitkeep
+
+# Node (if using frontend build tools)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Laravel (if future transition)
+vendor/
+composer.lock
+
+# System
+.htaccess.bak
+*.bak
+
+# PHPMyAdmin (if local)
+mysql_data/

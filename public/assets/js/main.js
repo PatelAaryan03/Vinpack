@@ -4,7 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initMobileMenu();
   // setActiveNavLink(); // Disabled: user doesn't want active nav highlighting
   initScrollAnimations();
+  initSectionHeaderAnimations();
   initInquiryForm(); // Web3Forms enabled
+  initSmoothScroll();
 });
 
 /* =========================
@@ -52,7 +54,7 @@ function setActiveNavLink() {
 ========================= */
 function initScrollAnimations() {
   const elements = document.querySelectorAll(
-    ".features article, .product-card, .contact-card, .about-offerings li"
+    ".features article, .product-card, .contact-card, .about-offerings li, .feature-card, .benefit-card"
   );
 
   if (!("IntersectionObserver" in window)) {
@@ -62,9 +64,12 @@ function initScrollAnimations() {
 
   const observer = new IntersectionObserver(
     entries => {
-      entries.forEach(entry => {
+      entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("animated");
+          // Stagger animations for a smooth cascade effect
+          setTimeout(() => {
+            entry.target.classList.add("animated");
+          }, index * 50);
           observer.unobserve(entry.target);
         }
       });
@@ -73,6 +78,60 @@ function initScrollAnimations() {
   );
 
   elements.forEach(el => observer.observe(el));
+}
+
+/* =========================
+   Section Header Animations
+========================= */
+function initSectionHeaderAnimations() {
+  const headers = document.querySelectorAll(".section-header");
+
+  if (!("IntersectionObserver" in window)) {
+    headers.forEach(h => {
+      h.querySelector("h2").style.animation = "slideUp 0.6s ease-out";
+      if (h.querySelector("p")) {
+        h.querySelector("p").style.animation = "slideUp 0.6s ease-out 0.1s both";
+      }
+    });
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const h2 = entry.target.querySelector("h2");
+          const p = entry.target.querySelector("p");
+          
+          if (h2) h2.style.animation = "slideUp 0.6s ease-out";
+          if (p) p.style.animation = "slideUp 0.6s ease-out 0.1s both";
+          
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  headers.forEach(h => observer.observe(h));
+}
+
+/* =========================
+   Smooth Scroll to Sections
+========================= */
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", e => {
+      const href = link.getAttribute("href");
+      if (href === "#") return;
+      
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  });
 }
 
 /* =========================

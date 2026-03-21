@@ -14,5 +14,5 @@ echo ""
 echo "Press Ctrl+C to stop the server"
 echo ""
 
-cd "$PROJECT_DIR"
+cd "$PROJECT_DIR/public"
 php -S $HOST:$PORT

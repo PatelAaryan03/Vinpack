@@ -27,6 +27,23 @@ body {
   background: #ffffff;
   color: var(--dark);
   min-height: 100vh;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .container {
@@ -80,7 +97,7 @@ body {
   color: white;
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding-bottom: 5px;
   border-bottom: 2px solid transparent;
 }
@@ -88,6 +105,7 @@ body {
 .nav-links a:hover {
   color: var(--primary);
   border-bottom: 2px solid var(--primary);
+  transform: translateY(-2px);
 }
 
 .mobile-menu-btn {
@@ -97,12 +115,18 @@ body {
   color: white;
   font-size: 24px;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+  transform: scale(1.1);
 }
 
 /* CONTACT HEADER */
 .contact-header {
   text-align: center;
   margin-bottom: 50px;
+  animation: slideUp 0.6s ease-out;
 }
 
 .contact-header h1 {
@@ -130,6 +154,14 @@ body {
   margin-bottom: 60px;
 }
 
+.contact-grid > * {
+  animation: slideUp 0.6s ease-out;
+}
+
+.contact-grid > *:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
 .contact-info {
   display: grid;
   grid-template-columns: 1fr;
@@ -141,13 +173,14 @@ body {
   padding: 30px;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-left: 5px solid var(--primary);
+  will-change: transform, box-shadow;
 }
 
 .info-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(34, 40, 49, 0.08);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(34, 40, 49, 0.15);
 }
 
 .info-icon {
@@ -193,6 +226,7 @@ body {
   padding: 40px;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  animation: slideUp 0.6s ease-out 0.1s both;
 }
 
 .modern-form {
@@ -228,8 +262,9 @@ body {
   border-radius: 8px;
   font-size: 15px;
   font-family: inherit;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   background: white;
+  will-change: border-color, box-shadow;
 }
 
 .form-group input:focus,
@@ -238,6 +273,7 @@ body {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+  transform: scale(1.01);
 }
 
 .form-group textarea {
@@ -272,8 +308,9 @@ body {
   border-radius: var(--radius);
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-decoration: none;
+  will-change: transform, box-shadow;
 }
 
 .btn-primary {
@@ -284,7 +321,7 @@ body {
 .btn-primary:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(129, 166, 198, 0.3);
+  box-shadow: 0 8px 20px rgba(196, 152, 103, 0.3);
 }
 
 /* FOOTER */
@@ -336,12 +373,13 @@ body {
 .footer-section nav a {
   color: white;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .footer-section nav a:hover {
   color: var(--primary);
   opacity: 0.9;
+  transform: translateX(4px);
 }
 
 .admin-link {
