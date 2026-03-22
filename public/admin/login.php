@@ -63,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($error)) {
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['admin_username'] = $username;
         $_SESSION['login_attempts'] = 0;
+        $_SESSION['last_activity'] = time(); // Initialize activity timestamp
         log_activity('LOGIN_SUCCESS', '');
         header('Location: dashboard.php');
         exit;

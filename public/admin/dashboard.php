@@ -527,6 +527,171 @@ function permanentDelete(id) {
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeModal();
 });
+
+// ===== SESSION TIMEOUT & ACTIVITY CHECKING =====
+let sessionCheckInterval;
+let logoutWarningTimer;
+let sessionExpired = false;
+
+function initializeSessionChecking() {
+    // Check session status every 30 seconds
+    sessionCheckInterval = setInterval(checkSession, 30000);
+    
+    // Update activity on user interaction
+    document.addEventListener('click', updateActivity);
+    document.addEventListener('keypress', updateActivity);
+    document.addEventListener('mousemove', debounce(updateActivity, 5000));
+    
+    // Check session immediately on page load
+    checkSession();
+}
+
+function updateActivity() {
+    // Ping the server to update last activity time
+    fetch('/admin/check-session.php')
+        .catch(() => {}); // Silent fail if network issue
+}
+
+function debounce(func, delay) {
+    let timeout;
+    return function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(func, delay);
+    };
+}
+
+function checkSession() {
+    if (sessionExpired) return;
+    
+    fetch('/admin/check-session.php')
+        .then(r => r.json())
+        .then(data => {
+            if (!data.logged_in) {
+                if (data.expired) {
+                    handleSessionExpired();
+                } else {
+                    window.location.href = '/admin/login.php';
+                }
+                return;
+            }
+            
+            // Show warning if close to timeout
+            if (data.show_warning) {
+                showSessionWarning(data.time_remaining);
+            } else {
+                // Hide warning if session was extended
+                const warningModal = document.getElementById('sessionWarningModal');
+                if (warningModal) {
+                    warningModal.classList.remove('open');
+                }
+                clearTimeout(logoutWarningTimer);
+            }
+        })
+        .catch(() => {}); // Silent fail
+}
+
+function showSessionWarning(timeRemaining) {
+    let warningModal = document.getElementById('sessionWarningModal');
+    
+    if (!warningModal) {
+        // Create modal if it doesn't exist
+        warningModal = document.createElement('div');
+        warningModal.id = 'sessionWarningModal';
+        warningModal.className = 'session-warning-modal';
+        warningModal.innerHTML = `
+            <div class="session-warning-content">
+                <div class="session-warning-header">
+                    <i class="fas fa-hourglass-end"></i>
+                    <h2>Session Expiring Soon</h2>
+                </div>
+                <p>Your session will expire in <span id="timeCountdown">5 minutes</span> due to inactivity.</p>
+                <p>Would you like to continue working?</p>
+                <div class="session-warning-actions">
+                    <button class="btn-secondary" onclick="logoutNow()">Logout</button>
+                    <button class="btn-primary" onclick="extendSession()">Continue Working</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(warningModal);
+    }
+    
+    warningModal.classList.add('open');
+    
+    // Start countdown
+    let secondsRemaining = timeRemaining;
+    clearTimeout(logoutWarningTimer);
+    
+    function updateCountdown() {
+        const minutes = Math.floor(secondsRemaining / 60);
+        const seconds = secondsRemaining % 60;
+        const countdownEl = document.getElementById('timeCountdown');
+        
+        if (countdownEl) {
+            if (minutes > 0) {
+                countdownEl.textContent = `${minutes} minute${minutes !== 1 ? 's' : ''} ${seconds} second${seconds !== 1 ? 's' : ''}`;
+            } else {
+                countdownEl.textContent = `${seconds} second${seconds !== 1 ? 's' : ''}`;
+            }
+        }
+        
+        secondsRemaining--;
+        
+        if (secondsRemaining <= 0) {
+            handleSessionExpired();
+        } else {
+            logoutWarningTimer = setTimeout(updateCountdown, 1000);
+        }
+    }
+    
+    updateCountdown();
+}
+
+function extendSession() {
+    // User clicked continue - reset inactivity timer by making a request
+    fetch('/admin/check-session.php')
+        .then(r => r.json())
+        .then(data => {
+            if (data.logged_in) {
+                const warningModal = document.getElementById('sessionWarningModal');
+                if (warningModal) {
+                    warningModal.classList.remove('open');
+                }
+                clearTimeout(logoutWarningTimer);
+            }
+        });
+}
+
+function logoutNow() {
+    sessionExpired = true;
+    clearInterval(sessionCheckInterval);
+    clearTimeout(logoutWarningTimer);
+    
+    fetch('/admin/logout-api.php')
+        .then(() => {
+            window.location.href = '/admin/login.php';
+        })
+        .catch(() => {
+            window.location.href = '/admin/login.php';
+        });
+}
+
+function handleSessionExpired() {
+    sessionExpired = true;
+    clearInterval(sessionCheckInterval);
+    clearTimeout(logoutWarningTimer);
+    
+    alert('Your session has expired due to inactivity. Please login again.');
+    window.location.href = '/admin/login.php?expired=1';
+}
+
+// Initialize session checking when page loads
+window.addEventListener('load', initializeSessionChecking);
+
+// Clean up on page unload
+window.addEventListener('beforeunload', function() {
+    clearInterval(sessionCheckInterval);
+    clearTimeout(logoutWarningTimer);
+});
 </script>
 </body>
 </html>
