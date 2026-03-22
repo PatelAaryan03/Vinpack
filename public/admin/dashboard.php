@@ -251,16 +251,6 @@ if ($view === 'deleted') {
                     <div class="stat-label">Read</div>
                 </div>
             </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-phone-alt"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-number"><?php echo $statusCounts['contacted'] ?? 0; ?></div>
-                    <div class="stat-label">Contacted</div>
-                </div>
-            </div>
         <?php endif; ?>
 
         <div class="stat-card">
