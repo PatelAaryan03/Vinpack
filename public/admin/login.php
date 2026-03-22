@@ -126,12 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($error)) {
                 Sign In
             </button>
         </form>
-
-        <div class="login-info">
-            <p><strong>Demo Credentials:</strong></p>
-            <p>Username: <code>admin</code></p>
-            <p>Password: <code>admin123</code></p>
-        </div>
     </div>
 </div>
 </body>
