@@ -204,12 +204,15 @@
 
 .btn-primary {
   background: white;
-  color: var(--primary-dark);
+  color: var(--dark);
+  border: 2px solid white;
 }
 
 .btn-primary:hover {
-  background: var(--primary-dark);
-  box-shadow: 0 8px 20px rgba(196, 152, 103, 0.3);
+  background: var(--dark);
+  color: white;
+  border-color: var(--dark);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   transform: translateY(-2px);
 }
 
