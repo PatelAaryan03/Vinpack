@@ -47,6 +47,8 @@ try {
         throw new Exception('Inquiry not found');
     }
     
+    // Commit the transaction
+    $conn->commit();
     $stmt->close();
 
     log_activity('PERMANENT_DELETE', "Inquiry #$inquiry_id permanently deleted");
@@ -58,6 +60,7 @@ try {
     ]);
 
 } catch (Exception $e) {
+    $conn->rollback();
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()

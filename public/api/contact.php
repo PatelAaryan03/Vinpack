@@ -150,6 +150,21 @@ try {
             'message' => 'Error saving inquiry. Please try again later.'
         ]);
         error_log('Database query failed: ' . $stmt->error);
+        $conn->rollback();
+        $stmt->close();
+        $conn->close();
+        exit;
+    }
+
+    // Commit the transaction
+    if (!$conn->commit()) {
+        http_response_code(500);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Error saving inquiry. Please try again later.'
+        ]);
+        error_log('Commit failed: ' . $conn->error);
+        $conn->rollback();
         $stmt->close();
         $conn->close();
         exit;

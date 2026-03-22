@@ -54,7 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $sql = "UPDATE inquiries SET status = ?, admin_notes = ?, updated_at = NOW() WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ssi', $status, $notes, $id);
-        $stmt->execute();
+        if ($stmt->execute()) {
+            $conn->commit();
+        } else {
+            $conn->rollback();
+            error_log('Failed to update status: ' . $stmt->error);
+        }
         $stmt->close();
         
         log_activity('STATUS_UPDATED', "Inquiry #$id updated to $status");
@@ -62,7 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     } elseif ($action === 'mark_all_read') {
         $sql = "UPDATE inquiries SET status = 'read', updated_at = NOW() WHERE status = 'new'";
         $stmt = $conn->prepare($sql);
-        if (!$stmt->execute()) {
+        if ($stmt->execute()) {
+            $conn->commit();
+        } else {
+            $conn->rollback();
             error_log('Failed to mark all as read: ' . $stmt->error);
         }
         $stmt->close();
