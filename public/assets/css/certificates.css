@@ -1,0 +1,567 @@
+/* CERTIFICATES PAGE - SPECIFIC STYLES */
+
+/* H2 COLOR */
+h2 {
+  color: white;
+}
+
+/* CERTIFICATES HEADER */
+.certificates-header {
+  text-align: center;
+  margin-bottom: 60px;
+  margin-top: 30px;
+  animation: slideUp 0.6s ease-out;
+}
+
+.certificates-header h1 {
+  font-size: 48px;
+  color: var(--dark);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.certificates-header h1 i {
+  color: var(--primary);
+}
+
+.certificates-header p {
+  font-size: 18px;
+  color: var(--gray);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* CERTIFICATES INTRO */
+.certifications-intro {
+  padding: 40px 30px;
+  background: white;
+  border-radius: 12px;
+  margin: 60px auto;
+  max-width: 1200px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: slideUp 0.6s ease-out;
+}
+
+.intro-content h2 {
+  font-size: 32px;
+  color: var(--dark);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 700;
+}
+
+.intro-content h2 i {
+  color: var(--primary);
+  font-size: 32px;
+}
+
+.intro-content p {
+  font-size: 16px;
+  color: var(--gray);
+  line-height: 1.8;
+}
+
+/* CERTIFICATES SECTION */
+.certificates-section {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-size: 42px;
+  color: var(--dark);
+  text-align: center;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-weight: 700;
+  position: relative;
+}
+
+.section-title i {
+  color: var(--primary);
+  font-size: 42px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%);
+  border-radius: 8px;
+}
+
+/* CERTIFICATES GRID */
+.certificates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+/* CERTIFICATE CARD */
+.certificate-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #e5e7eb;
+  position: relative;
+  animation: slideUp 0.6s ease-out both;
+}
+
+.certificate-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+  z-index: 10;
+}
+
+.certificates-grid .certificate-card:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.certificates-grid .certificate-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.certificates-grid .certificate-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.cards-grid .certificate-card:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.certificate-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary);
+}
+
+/* PDF VIEWER */
+.pdf-viewer {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  background: #f3f4f6;
+  position: relative;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pdf-viewer iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: white;
+}
+
+/* CERTIFICATE INFO */
+.certificate-info {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.certificate-info h3 {
+  font-size: 24px;
+  color: var(--dark);
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.certificate-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(196, 152, 103, 0.2);
+}
+
+.certificate-info p {
+  font-size: 16px;
+  color: var(--gray);
+  line-height: 1.7;
+  margin: 0;
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+/* DOWNLOAD BUTTON */
+.download-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 12px rgba(196, 152, 103, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+.download-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(196, 152, 103, 0.3);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+}
+
+.download-link i {
+  font-size: 14px;
+}
+
+/* QUALITY STANDARDS SECTION */
+.quality-standards {
+  background: var(--dark);
+  padding: 60px 40px;
+  border-radius: 12px;
+  margin-bottom: 60px;
+  color: white;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: slideUp 0.6s ease-out;
+}
+
+.quality-standards h2 {
+  font-size: 42px;
+  text-align: center;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-weight: 700;
+}
+
+.quality-standards h2 i {
+  color: var(--primary);
+  font-size: 42px;
+}
+
+/* STANDARDS GRID */
+.standards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.standard-card {
+  text-align: center;
+  padding: 30px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: slideUp 0.6s ease-out both;
+}
+
+.standards-grid .standard-card:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.standards-grid .standard-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.standards-grid .standard-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.standard-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(196, 152, 103, 0.2);
+}
+
+.standard-icon {
+  font-size: 48px;
+  color: var(--primary);
+  margin-bottom: 20px;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.standard-card:hover .standard-icon {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.standard-card h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: white;
+  font-weight: 700;
+}
+
+.standard-card p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+}
+
+/* CTA SECTION - SAME AS OTHER PAGES */
+.cta-modern {
+  background: var(--primary);
+  color: white;
+  padding: 60px 40px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 60px;
+  box-shadow: 0 4px 15px rgba(196, 152, 103, 0.2);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: slideUp 0.6s ease-out;
+  transition: all 0.3s ease;
+}
+
+.cta-modern:hover {
+  box-shadow: 0 12px 30px rgba(196, 152, 103, 0.3);
+  transform: translateY(-3px);
+}
+
+.cta-content h2 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-weight: 700;
+}
+
+.cta-content p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  opacity: 0.95;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: white;
+  color: var(--dark);
+  padding: 15px 40px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.cta-btn:hover {
+  background: var(--light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cta-btn i {
+  margin-right: 8px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .certificates-header h1 {
+    font-size: 36px;
+  }
+
+  .section-title {
+    font-size: 32px;
+  }
+
+  .cta-content h2 {
+    font-size: 32px;
+  }
+
+  .quality-standards h2 {
+    font-size: 32px;
+  }
+
+  .certifications-intro {
+    padding: 30px 20px;
+    margin: 40px 20px;
+  }
+
+  .quality-standards {
+    padding: 40px 20px;
+    margin: 40px 20px;
+  }
+
+  .cta-modern {
+    padding: 40px 20px;
+    margin: 40px 20px;
+  }
+
+  .certificates-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .pdf-viewer {
+    height: 220px;
+  }
+
+  .standard-card {
+    padding: 20px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+  }
+
+  .certificates-header h1 {
+    font-size: 28px;
+    line-height: 1.3;
+  }
+
+  .certificates-header p {
+    font-size: 16px;
+  }
+
+  .certifications-intro {
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+  }
+
+  .intro-content h2 {
+    font-size: 24px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    margin-bottom: 40px;
+  }
+
+  .section-title::after {
+    bottom: -15px;
+  }
+
+  .certificate-card {
+    border-radius: 8px;
+  }
+
+  .pdf-viewer {
+    height: 180px;
+  }
+
+  .certificate-info {
+    padding: 20px;
+  }
+
+  .certificate-info h3 {
+    font-size: 20px;
+  }
+
+  .certificate-badge {
+    font-size: 10px;
+    padding: 6px 12px;
+  }
+
+  .certificate-info p {
+    font-size: 14px;
+  }
+
+  .download-link {
+    padding: 10px 20px;
+    font-size: 12px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .quality-standards {
+    padding: 30px 20px;
+    margin: 40px 0;
+    border-radius: 8px;
+  }
+
+  .quality-standards h2 {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  .standard-card {
+    padding: 20px;
+  }
+
+  .standard-icon {
+    font-size: 36px;
+    margin-bottom: 15px;
+  }
+
+  .standard-card h3 {
+    font-size: 18px;
+  }
+
+  .standard-card p {
+    font-size: 14px;
+  }
+
+  .cta-modern {
+    padding: 30px 20px;
+    margin: 40px 0;
+    border-radius: 8px;
+  }
+
+  .cta-content h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .cta-content p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .cta-btn {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}
