@@ -8,10 +8,19 @@ require_once '../../config/database.php';
 $id = intval($_GET['id']);
 $view = $_GET['view'] ?? 'active';
 
-// Query from appropriate table based on view
+// Validate view parameter
+if (!in_array($view, ['active', 'deleted'])) {
+    $view = 'active';
+}
+
+// Query from appropriate table based on view using prepared statement
 $table = ($view === 'deleted') ? 'deleted_inquiries' : 'inquiries';
-$sql = "SELECT * FROM $table WHERE id = $id";
-$result = $conn->query($sql);
+$sql = "SELECT * FROM $table WHERE id = ?";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
     echo '<p>Inquiry not found</p>';
@@ -19,6 +28,7 @@ if ($result->num_rows === 0) {
 }
 
 $inquiry = $result->fetch_assoc();
+$stmt->close();
 ?>
 
 <form method="POST" id="updateForm">

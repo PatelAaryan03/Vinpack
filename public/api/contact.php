@@ -81,6 +81,36 @@ try {
     $message = htmlspecialchars(trim($data['message']), ENT_QUOTES, 'UTF-8');
     $submittedAt = date('Y-m-d H:i:s');
 
+    // Validate email format if provided
+    if ($email !== 'not provided' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Invalid email format'
+        ]);
+        exit;
+    }
+
+    // Validate phone format (basic: at least 10 digits or + sign)
+    if (!preg_match('/^[+\d\s\-\(\)]{10,}$/', $phone)) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Invalid phone format'
+        ]);
+        exit;
+    }
+
+    // Validate field lengths
+    if (strlen($companyName) > 255 || strlen($contactName) > 255 || strlen($phone) > 20 || strlen($product) > 255) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'One or more fields exceed maximum length'
+        ]);
+        exit;
+    }
+
     // Connect to database
     require_once '../../config/database.php';
 
@@ -95,24 +125,32 @@ try {
         exit;
     }
 
-    // Prepare data for database
-    $companyNameEscaped = $conn->real_escape_string($companyName);
-    $contactNameEscaped = $conn->real_escape_string($contactName);
-    $phoneEscaped = $conn->real_escape_string($phone);
-    $productEscaped = $conn->real_escape_string($product);
-    $messageEscaped = $conn->real_escape_string($message);
-
-    // Build SQL query
+    // Use prepared statement to prevent SQL injection
     $sql = "INSERT INTO inquiries (company_name, contact_name, email, phone, product_interest, message, submitted_at, status) 
-            VALUES ('$companyNameEscaped', '$contactNameEscaped', '$email', '$phoneEscaped', '$productEscaped', '$messageEscaped', '$submittedAt', 'new')";
-
-    if (!$conn->query($sql)) {
+            VALUES (?, ?, ?, ?, ?, ?, ?, 'new')";
+    
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Database error. Please try again later.'
+        ]);
+        error_log('Prepare failed: ' . $conn->error);
+        $conn->close();
+        exit;
+    }
+    
+    $stmt->bind_param('sssssss', $companyName, $contactName, $email, $phone, $product, $message, $submittedAt);
+    
+    if (!$stmt->execute()) {
         http_response_code(500);
         echo json_encode([
             'success' => false,
             'message' => 'Error saving inquiry. Please try again later.'
         ]);
-        error_log('Database query failed: ' . $conn->error);
+        error_log('Database query failed: ' . $stmt->error);
+        $stmt->close();
         $conn->close();
         exit;
     }
@@ -120,7 +158,8 @@ try {
     // Get inserted ID
     $inquiryId = $conn->insert_id;
     error_log("Inquiry submitted successfully | ID: $inquiryId | Company: $companyName");
-
+    
+    $stmt->close();
     $conn->close();
 
     http_response_code(200);
