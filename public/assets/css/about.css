@@ -3,6 +3,7 @@
 /* ABOUT HEADER */
 .about-header {
   text-align: center;
+  margin-top: 60px;
   margin-bottom: 80px;
   animation: slideUp 0.6s ease-out;
 }
