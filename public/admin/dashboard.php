@@ -107,16 +107,346 @@ if ($view === 'deleted') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Vinpack Inquiries</title>
-    
-    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- AOS - Animate On Scroll -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    
+</head>
+<body>
+<!-- HEADER -->
+<header class="admin-header">
+    <div class="admin-header-content">
+        <div class="admin-brand">
+            <i class="fas fa-box-open"></i>
+            <span>Vinpack Admin</span>
+        </div>
+        <form method="POST" class="admin-logout">
+            <input type="hidden" name="logout" value="1">
+            <button type="submit" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
+        </form>
+    </div>
+</header>
 
-    
-    <style>
+<!-- MAIN CONTENT -->
+<main class="admin-main">
+    <!-- DASHBOARD HEADER -->
+    <div class="dashboard-header">
+        <h1>Dashboard</h1>
+        <p>Manage customer inquiries and track responses</p>
+    </div>
+
+    <!-- STATS GRID -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-inbox"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-number"><?php echo $totalCount; ?></div>
+                <div class="stat-label"><?php echo $view === 'deleted' ? 'Deleted' : 'Total'; ?> Inquiries</div>
+            </div>
+        </div>
+
+        <?php if ($view === 'active'): ?>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-envelope-open"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number"><?php echo $statusCounts['new'] ?? 0; ?></div>
+                    <div class="stat-label">New</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number"><?php echo $statusCounts['read'] ?? 0; ?></div>
+                    <div class="stat-label">Read</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number"><?php echo $statusCounts['contacted'] ?? 0; ?></div>
+                    <div class="stat-label">Contacted</div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-number"><?php echo $deletedCount ?? 0; ?></div>
+                <div class="stat-label">Deleted</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FILTERS & TABS -->
+    <div class="filters-section">
+        <div class="tab-navigation">
+            <a href="dashboard.php?view=active" class="tab-btn <?php echo $view === 'active' ? 'active' : ''; ?>">
+                <i class="fas fa-inbox"></i> Active
+            </a>
+            <a href="dashboard.php?view=deleted" class="tab-btn <?php echo $view === 'deleted' ? 'active' : ''; ?>">
+                <i class="fas fa-trash"></i> Deleted
+            </a>
+        </div>
+
+        <form method="GET" class="filter-controls">
+            <input type="hidden" name="view" value="<?php echo $view; ?>">
+            <input type="text" name="search" placeholder="Search by company, name, or email..." value="<?php echo htmlspecialchars($searchQuery); ?>" class="search-input">
+            
+            <?php if ($view === 'active'): ?>
+                <select name="status" class="status-filter" onchange="this.form.submit()">
+                    <option value="all" <?php echo $statusFilter === 'all' ? 'selected' : ''; ?>>All Statuses</option>
+                    <option value="new" <?php echo $statusFilter === 'new' ? 'selected' : ''; ?>>New</option>
+                    <option value="read" <?php echo $statusFilter === 'read' ? 'selected' : ''; ?>>Read</option>
+                    <option value="contacted" <?php echo $statusFilter === 'contacted' ? 'selected' : ''; ?>>Contacted</option>
+                </select>
+            <?php endif; ?>
+        </form>
+    </div>
+
+    <!-- INQUIRIES TABLE -->
+    <div class="table-section">
+        <?php if ($result && $result->num_rows > 0): ?>
+            <table class="inquiries-table">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Product</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($inquiry = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><strong><?php echo htmlspecialchars($inquiry['company_name']); ?></strong></td>
+                            <td><?php echo htmlspecialchars($inquiry['contact_name']); ?></td>
+                            <td><?php echo htmlspecialchars($inquiry['email']); ?></td>
+                            <td><?php echo htmlspecialchars($inquiry['product_interest']); ?></td>
+                            <td>
+                                <?php
+                                $status = $inquiry['status'] ?? 'new';
+                                $status_classes = [
+                                    'new' => 'badge-new',
+                                    'read' => 'badge-read',
+                                    'contacted' => 'badge-contacted',
+                                    'replied' => 'badge-replied'
+                                ];
+                                $status_text = ['new' => 'New', 'read' => 'Read', 'contacted' => 'Contacted', 'replied' => 'Replied'];
+                                ?>
+                                <span class="status-badge <?php echo $status_classes[$status] ?? 'badge-read'; ?>">
+                                    <?php echo $status_text[$status] ?? 'Unknown'; ?>
+                                </span>
+                            </td>
+                            <td>
+                                <?php 
+                                $date = $view === 'deleted' ? $inquiry['deleted_at'] : ($inquiry['submitted_at'] ?? 'N/A');
+                                echo !empty($date) ? date('M d, Y', strtotime($date)) : 'N/A';
+                                ?>
+                            </td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="btn-view" onclick="openModal(<?php echo $inquiry['id']; ?>, '<?php echo htmlspecialchars(json_encode($inquiry), ENT_QUOTES); ?>')">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <?php if ($view === 'active'): ?>
+                                        <button class="btn-delete" onclick="deleteInquiry(<?php echo $inquiry['id']; ?>)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    <?php else: ?>
+                                        <button class="btn-delete" onclick="permanentDelete(<?php echo $inquiry['id']; ?>)">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    <?php endif; ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+
+            <!-- BULK ACTIONS -->
+            <?php if ($view === 'active'): ?>
+                <div class="bulk-actions">
+                    <form method="POST" style="display: inline;">
+                        <button type="submit" name="action" value="mark_all_read" class="btn-bulk" onclick="return confirm('Mark all new inquiries as read?')">
+                            <i class="fas fa-check-double"></i> Mark All as Read
+                        </button>
+                    </form>
+                </div>
+            <?php endif; ?>
+        <?php else: ?>
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>No inquiries found</p>
+            </div>
+        <?php endif; ?>
+    </div>
+</main>
+
+<!-- MODAL -->
+<div id="inquiryModal" class="modal">
+    <div class="modal-overlay" onclick="closeModal()"></div>
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h2>
+                <i class="fas fa-envelope"></i>
+                Inquiry Details
+            </h2>
+            <button type="button" class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="inquiry-field">
+                <label>Company Name</label>
+                <p id="modalCompany"></p>
+            </div>
+
+            <div class="inquiry-field">
+                <label>Contact Person</label>
+                <p id="modalContact"></p>
+            </div>
+
+            <div class="inquiry-field">
+                <label>Email</label>
+                <p id="modalEmail"></p>
+            </div>
+
+            <div class="inquiry-field">
+                <label>Phone</label>
+                <p id="modalPhone"></p>
+            </div>
+
+            <div class="inquiry-field">
+                <label>Product Interest</label>
+                <p id="modalProduct"></p>
+            </div>
+
+            <div class="inquiry-field">
+                <label>Message</label>
+                <p id="modalMessage" style="white-space: pre-wrap;"></p>
+            </div>
+
+            <?php if ($view === 'active'): ?>
+                <form method="POST" class="modal-form">
+                    <input type="hidden" name="id" id="modalInquiryId">
+                    <input type="hidden" name="action" value="update_status">
+
+                    <div class="form-field">
+                        <label for="statusSelect">Update Status</label>
+                        <select id="statusSelect" name="status" required>
+                            <option value="new">New</option>
+                            <option value="read">Read</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="replied">Replied</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="notesText">Admin Notes</label>
+                        <textarea id="notesText" name="notes" placeholder="Add your notes here..."></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                    </div>
+                </form>
+            <?php else: ?>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Close</button>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<script>
+function openModal(id, inquiryJson) {
+    const inquiry = JSON.parse(inquiryJson.replace(/&quot;/g, '"'));
+    document.getElementById('modalInquiryId').value = id;
+    document.getElementById('modalCompany').textContent = inquiry.company_name;
+    document.getElementById('modalContact').textContent = inquiry.contact_name;
+    document.getElementById('modalEmail').textContent = inquiry.email;
+    document.getElementById('modalPhone').textContent = inquiry.phone;
+    document.getElementById('modalProduct').textContent = inquiry.product_interest;
+    document.getElementById('modalMessage').textContent = inquiry.message;
+    document.getElementById('statusSelect').value = inquiry.status || 'new';
+    document.getElementById('notesText').value = inquiry.admin_notes || '';
+    document.getElementById('inquiryModal').classList.add('open');
+}
+
+function closeModal() {
+    document.getElementById('inquiryModal').classList.remove('open');
+}
+
+function deleteInquiry(id) {
+    if (confirm('Delete this inquiry? It will be archived.')) {
+        fetch('/api/delete-inquiry.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                closeModal();
+                setTimeout(() => location.reload(), 300);
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(e => alert('Error: ' + e.message));
+    }
+}
+
+function permanentDelete(id) {
+    if (confirm('Permanently delete this inquiry? This cannot be undone.')) {
+        fetch('/api/permanent-delete.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                closeModal();
+                setTimeout(() => location.reload(), 300);
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(e => alert('Error: ' + e.message));
+    }
+}
+
+// Close modal on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>
         * {
             margin: 0;
             padding: 0;
