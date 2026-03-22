@@ -62,12 +62,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     } elseif ($action === 'mark_all_read') {
         $sql = "UPDATE inquiries SET status = 'read', updated_at = NOW() WHERE status = 'new'";
         $stmt = $conn->prepare($sql);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            error_log('Failed to mark all as read: ' . $stmt->error);
+        }
         $stmt->close();
         
         log_activity('MARK_ALL_READ', 'All new inquiries marked as read');
         
-        header('Location: dashboard.php');
+        // Redirect back to dashboard
+        header('Location: dashboard.php', true, 302);
         exit;
     }
 }

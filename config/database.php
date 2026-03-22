@@ -96,6 +96,9 @@ function connect_to_database($retry = 0) {
     // Set charset to utf8mb4
     @$conn->set_charset('utf8mb4');
     
+    // Disable autocommit for proper transaction handling
+    @$conn->autocommit(false);
+    
     return $conn;
 }
 
