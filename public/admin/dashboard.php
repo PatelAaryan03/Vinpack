@@ -447,29 +447,6 @@ document.addEventListener('keydown', function(e) {
 </script>
 </body>
 </html>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #d4a574;
-            --primary-dark: #b8935f;
-            --primary-light: #e5bfa6;
-            --dark: #1a1a2e;
-            --darker: #0f0f1e;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --border: #e9ecef;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --info: #3b82f6;
-            --radius: 12px;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.15);
-        }
 
         html {
             scroll-behavior: smooth;
