@@ -495,13 +495,15 @@ a:hover {
   transition: all 0.3s ease;
   cursor: pointer;
   text-decoration: none;
-  border: none;
+  border: 2px solid white;
 }
 
 .cta-btn:hover {
-  background: var(--light);
+  background: var(--dark);
+  color: white;
+  border-color: var(--dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .cta-btn i {
