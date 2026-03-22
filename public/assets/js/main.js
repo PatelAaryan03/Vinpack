@@ -39,12 +39,20 @@ function initMobileMenu() {
    Active Navigation Link
 ========================= */
 function setActiveNavLink() {
-  const currentPage =
-    window.location.pathname.split("/").pop() || "index.html";
+  const currentPath = window.location.pathname;
+  const currentPage = currentPath.split("/").pop() || "index.html";
 
   document.querySelectorAll(".nav-links a").forEach(link => {
-    if (link.getAttribute("href") === currentPage) {
+    const href = link.getAttribute("href");
+    
+    // Match current page with link href
+    // Handle home page case (/ should match index.html)
+    if ((currentPath === "/" && href === "index.html") || 
+        currentPage === href ||
+        currentPath.includes(href)) {
       link.classList.add("active");
+    } else {
+      link.classList.remove("active");
     }
   });
 }
