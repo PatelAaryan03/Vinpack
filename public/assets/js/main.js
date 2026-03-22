@@ -2,7 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   initMobileMenu();
-  // setActiveNavLink(); // Disabled: user doesn't want active nav highlighting
+  setActiveNavLink(); // Enable active navigation highlighting
   initScrollAnimations();
   initSectionHeaderAnimations();
   initInquiryForm(); // Web3Forms enabled

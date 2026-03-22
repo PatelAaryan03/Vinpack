@@ -1,84 +1,7 @@
 
 
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
-}
 
-/* HEADER */
-.header-wrap {
-  background: var(--dark);
-  color: white;
-  padding: 15px 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.nav {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: 700;
-  color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo img {
-  height: 40px;
-  width: auto;
-}
-
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 30px;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  padding-bottom: 5px;
-  border-bottom: 2px solid transparent;
-  position: relative;
-}
-
-.nav-links a:hover {
-  color: var(--primary);
-  border-bottom: 2px solid var(--primary);
-  transform: translateY(-2px);
-}
-
-.mobile-menu-btn {
-  display: none;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.mobile-menu-btn:hover {
-  transform: scale(1.1);
-}
-
-/* HERO SECTION */
 .hero-modern {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -135,50 +58,6 @@
   gap: 15px;
   margin: 30px 0;
   flex-wrap: wrap;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 28px;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  text-decoration: none;
-  position: relative;
-  will-change: transform, box-shadow;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: white;
-}
-
-.btn-primary:hover {
-  background: var(--primary-dark);
-  box-shadow: 0 8px 20px rgba(196, 152, 103, 0.3);
-  transform: translateY(-2px);
-}
-
-.btn-outline {
-  border: 2px solid var(--primary);
-  color: var(--primary);
-  background: white;
-}
-
-.btn-outline:hover {
-  background: var(--primary);
-  color: white;
-  box-shadow: 0 8px 20px rgba(196, 152, 103, 0.3);
-  transform: translateY(-2px);
-}
-
-.btn-lg {
-  padding: 16px 40px;
-  font-size: 18px;
 }
 
 .hero-stats {
@@ -375,35 +254,6 @@
 .benefit-card p {
   color: var(--gray);
   line-height: 1.6;
-}
-
-/* CTA SECTION */
-.cta-modern {
-  background: var(--primary);
-  color: white;
-  padding: 60px 40px;
-  border-radius: var(--radius);
-  text-align: center;
-  margin-bottom: 80px;
-  box-shadow: 0 4px 15px rgba(129, 166, 198, 0.2);
-  animation: slideUp 0.6s ease-out;
-  transition: all 0.3s ease;
-}
-
-.cta-modern:hover {
-  box-shadow: 0 12px 30px rgba(129, 166, 198, 0.3);
-  transform: translateY(-3px);
-}
-
-.cta-content h2 {
-  font-size: 42px;
-  margin-bottom: 20px;
-}
-
-.cta-content p {
-  font-size: 18px;
-  margin-bottom: 30px;
-  opacity: 0.9;
 }
 
 /* FOOTER */

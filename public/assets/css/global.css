@@ -476,6 +476,76 @@ a:hover {
   font-size: 14px;
 }
 
+/* Button variants */
+.btn-large {
+  padding: 15px 30px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: white;
+  color: var(--dark);
+  padding: 15px 40px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+}
+
+.cta-btn:hover {
+  background: var(--light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cta-btn i {
+  margin-right: 8px;
+}
+
+/* CTA Section */
+.cta-modern {
+  background: var(--primary);
+  color: white;
+  padding: 60px 40px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  margin-bottom: 60px;
+  box-shadow: 0 4px 15px rgba(196, 152, 103, 0.2);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: slideUp 0.6s ease-out;
+  transition: all 0.3s ease;
+}
+
+.cta-modern:hover {
+  box-shadow: 0 12px 30px rgba(196, 152, 103, 0.3);
+  transform: translateY(-3px);
+}
+
+.cta-content h2 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-weight: 700;
+  color: white;
+}
+
+.cta-content p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  opacity: 0.95;
+  color: white;
+}
+
 /* ============================================
    CARDS & COMPONENTS
    ============================================ */

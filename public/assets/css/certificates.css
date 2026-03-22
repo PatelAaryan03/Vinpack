@@ -1,5 +1,3 @@
-/* CERTIFICATES PAGE - SPECIFIC STYLES */
-
 /* H2 COLOR */
 h2 {
   color: white;
@@ -342,65 +340,6 @@ h2 {
   font-size: 15px;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.7;
-}
-
-/* CTA SECTION - SAME AS OTHER PAGES */
-.cta-modern {
-  background: var(--primary);
-  color: white;
-  padding: 60px 40px;
-  border-radius: 12px;
-  text-align: center;
-  margin-bottom: 60px;
-  box-shadow: 0 4px 15px rgba(196, 152, 103, 0.2);
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  animation: slideUp 0.6s ease-out;
-  transition: all 0.3s ease;
-}
-
-.cta-modern:hover {
-  box-shadow: 0 12px 30px rgba(196, 152, 103, 0.3);
-  transform: translateY(-3px);
-}
-
-.cta-content h2 {
-  font-size: 42px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  font-weight: 700;
-}
-
-.cta-content p {
-  font-size: 18px;
-  margin-bottom: 30px;
-  opacity: 0.95;
-}
-
-.cta-btn {
-  display: inline-block;
-  background: white;
-  color: var(--dark);
-  padding: 15px 40px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.cta-btn:hover {
-  background: var(--light);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.cta-btn i {
-  margin-right: 8px;
 }
 
 /* RESPONSIVE */
