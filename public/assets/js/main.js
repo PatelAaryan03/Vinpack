@@ -40,19 +40,23 @@ function initMobileMenu() {
 ========================= */
 function setActiveNavLink() {
   const currentPath = window.location.pathname;
-  const currentPage = currentPath.split("/").pop() || "index.html";
-
-  document.querySelectorAll(".nav-links a").forEach(link => {
+  const currentFile = currentPath.split("/").pop();
+  
+  // Default to index.html if path ends with / or is empty
+  const activePage = currentFile || "index.html";
+  
+  const navLinks = document.querySelectorAll(".nav-links a");
+  
+  navLinks.forEach(link => {
+    link.classList.remove("active"); // Remove all active classes first
+  });
+  
+  navLinks.forEach(link => {
     const href = link.getAttribute("href");
     
-    // Match current page with link href
-    // Handle home page case (/ should match index.html)
-    if ((currentPath === "/" && href === "index.html") || 
-        currentPage === href ||
-        currentPath.includes(href)) {
+    // Match the page
+    if (href === activePage) {
       link.classList.add("active");
-    } else {
-      link.classList.remove("active");
     }
   });
 }
