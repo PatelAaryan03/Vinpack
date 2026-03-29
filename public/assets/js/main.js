@@ -188,22 +188,32 @@ function initInquiryForm() {
         const dbData = {
           companyName: formData.get('company_name'),
           contactName: formData.get('contact_name'),
-          email: formData.get('email') || 'not provided',
+          email: formData.get('email'),  // Email is now required
           phone: formData.get('phone'),
-          product: formData.get('product_interest'),
+          product: formData.get('product_interest'),  // Form field is 'product_interest', API expects 'product'
           message: formData.get('message')
         };
 
         try {
-          await fetch('api/contact.php', {
+          const dbResponse = await fetch('api/contact.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(dbData)
           });
+
+          const dbResult = await dbResponse.json();
+          
+          if (!dbResponse.ok) {
+            console.warn('Database save warning:', dbResponse.status, dbResult);
+          } else if (!dbResult.success) {
+            console.warn('Database save failed:', dbResult.message);
+          } else {
+            console.log('✅ Inquiry saved to database');
+          }
         } catch (dbError) {
-          console.log('Note: Database save skipped', dbError);
+          console.warn('Database connection error:', dbError);
         }
 
         form.reset();

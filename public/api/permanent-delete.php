@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 header('Content-Type: application/json');
 require_once '../../config/database.php';
 
@@ -22,6 +24,7 @@ function log_activity($action, $details = '') {
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (!$input || !isset($input['id'])) {
+    http_response_code(400);
     echo json_encode(['success' => false, 'error' => 'Invalid input']);
     exit;
 }
@@ -29,6 +32,7 @@ if (!$input || !isset($input['id'])) {
 $inquiry_id = intval($input['id']);
 
 if (!isset($conn) || !$conn) {
+    http_response_code(500);
     echo json_encode(['success' => false, 'error' => 'Database connection failed']);
     exit;
 }
@@ -44,6 +48,7 @@ try {
     }
     
     if ($stmt->affected_rows === 0) {
+        http_response_code(404);
         throw new Exception('Inquiry not found');
     }
     
@@ -53,6 +58,7 @@ try {
 
     log_activity('PERMANENT_DELETE', "Inquiry #$inquiry_id permanently deleted");
 
+    http_response_code(200);
     echo json_encode([
         'success' => true,
         'message' => 'Inquiry permanently deleted',
@@ -61,6 +67,7 @@ try {
 
 } catch (Exception $e) {
     $conn->rollback();
+    http_response_code(500);
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()

@@ -53,7 +53,7 @@ try {
     }
 
     // Validate required fields
-    $requiredFields = ['companyName', 'contactName', 'phone', 'product', 'message'];
+    $requiredFields = ['companyName', 'contactName', 'email', 'phone', 'product', 'message'];
     $missingFields = [];
 
     foreach ($requiredFields as $field) {
@@ -75,14 +75,14 @@ try {
     // Sanitize inputs
     $companyName = htmlspecialchars(trim($data['companyName']), ENT_QUOTES, 'UTF-8');
     $contactName = htmlspecialchars(trim($data['contactName']), ENT_QUOTES, 'UTF-8');
-    $email = filter_var($data['email'] ?? '', FILTER_SANITIZE_EMAIL) ?: 'not provided';
+    $email = filter_var($data['email'] ?? '', FILTER_SANITIZE_EMAIL);
     $phone = htmlspecialchars(trim($data['phone']), ENT_QUOTES, 'UTF-8');
     $product = htmlspecialchars(trim($data['product']), ENT_QUOTES, 'UTF-8');
     $message = htmlspecialchars(trim($data['message']), ENT_QUOTES, 'UTF-8');
     $submittedAt = date('Y-m-d H:i:s');
 
-    // Validate email format if provided
-    if ($email !== 'not provided' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    // Validate email format (required field)
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         http_response_code(400);
         echo json_encode([
             'success' => false,

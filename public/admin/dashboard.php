@@ -7,7 +7,16 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit;
 }
 
-
+// Session timeout check - 20 minutes inactivity
+$inactivity_timeout = 1200;
+if (isset($_SESSION['last_activity'])) {
+    if (time() - $_SESSION['last_activity'] > $inactivity_timeout) {
+        session_destroy();
+        header('Location: login.php?expired=1');
+        exit;
+    }
+}
+$_SESSION['last_activity'] = time();
 
 require_once '../../config/database.php';
 

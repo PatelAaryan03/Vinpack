@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS inquiries (
     phone VARCHAR(20) NOT NULL,
     product_interest VARCHAR(255) NOT NULL,
     message LONGTEXT NOT NULL,
-    status ENUM('new', 'contacted', 'completed', 'spam') DEFAULT 'new',
+    status ENUM('new', 'read', 'contacted', 'replied', 'completed', 'spam') DEFAULT 'new',
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     admin_notes LONGTEXT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
