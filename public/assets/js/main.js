@@ -178,7 +178,7 @@ function initInquiryForm() {
       const emailResult = await emailResponse.json();
 
       if (emailResult.success) {
-        // Email sent successfully
+        // Email sent successfully - now save to database
         status.textContent = "✅ Thank you! We will reach you in the next 2-3 working days.";
         status.style.color = "#27ae60";
         status.style.background = "#d1fae5";
@@ -188,14 +188,17 @@ function initInquiryForm() {
         const dbData = {
           companyName: formData.get('company_name'),
           contactName: formData.get('contact_name'),
-          email: formData.get('email'),  // Email is now required
+          email: formData.get('email'),
           phone: formData.get('phone'),
-          product: formData.get('product_interest'),  // Form field is 'product_interest', API expects 'product'
+          product: formData.get('product_interest'),
           message: formData.get('message')
         };
+        
+        // Log what we're sending
+        console.log('Sending to database:', JSON.stringify(dbData, null, 2));
 
         try {
-          const dbResponse = await fetch('api/contact.php', {
+          const dbResponse = await fetch('./api/contact.php', {  // Use ./ for relative path
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -205,19 +208,26 @@ function initInquiryForm() {
 
           const dbResult = await dbResponse.json();
           
+          // Log full details for debugging
+          console.log('Database response status:', dbResponse.status);
+          console.log('Database response body:', JSON.stringify(dbResult, null, 2));
+          
           if (!dbResponse.ok) {
-            console.warn('Database save warning:', dbResponse.status, dbResult);
+            console.error('❌ Database HTTP Error:', dbResponse.status);
+            console.error('❌ Full error response:', dbResult);
           } else if (!dbResult.success) {
-            console.warn('Database save failed:', dbResult.message);
+            console.error('❌ Database operation failed:', dbResult.message);
           } else {
-            console.log('✅ Inquiry saved to database');
+            console.log('✅ Inquiry saved to database successfully');
           }
         } catch (dbError) {
-          console.warn('Database connection error:', dbError);
+          console.error('❌ Database fetch error:', dbError.message);
+          console.error('❌ Full error:', dbError);
         }
 
         form.reset();
       } else {
+        // Web3Forms didn't return success, but show success anyway (as before)
         status.textContent = "✅ Thank you! We will reach you in the next 2-3 working days.";
         status.style.color = "#27ae60";
         status.style.background = "#d1fae5";
